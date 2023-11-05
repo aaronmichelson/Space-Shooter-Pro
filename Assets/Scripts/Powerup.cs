@@ -39,11 +39,11 @@ public class Powerup : MonoBehaviour
                         break;
 
                     case 1:
-                        player.SpeedPowerupActive();
+                        player.SpeedBoostActive();
                         break;
 
                     case 2:
-                        Debug.Log("Collected Shields...");
+                        player.ShieldsActive();
                         break;
 
                     default:

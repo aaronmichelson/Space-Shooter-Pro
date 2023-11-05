@@ -20,10 +20,17 @@ public class Player : MonoBehaviour
 
     private SpawnManager _spawnManager;
 
-    [SerializeField]
     private bool _isTripleShotActive = false;
+    private bool _isSpeedBoostActive = false;
+    private bool _isShieldsActive = false;
+
     [SerializeField]
-    private bool _isSpeedPowerupActive = false;
+    private GameObject _shieldVisualizer;
+
+    [SerializeField]
+    private int _score;
+
+    private UIManager _uiManager;
 
     // Start is called before the first frame update
     void Start()
@@ -32,9 +39,16 @@ public class Player : MonoBehaviour
 
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
 
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
         if (_spawnManager == null)
         {
             Debug.LogError("The Spawn Manager is NULL.");
+        }
+
+        if (_uiManager == null)
+        {
+            Debug.LogError("The UI Manager is NULL.");
         }
     }
 
@@ -57,7 +71,7 @@ public class Player : MonoBehaviour
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
-        if (_isSpeedPowerupActive == true)
+        if (_isSpeedBoostActive == true)
         {
             transform.Translate(direction * _speedPowerup * Time.deltaTime);
         }
@@ -94,7 +108,16 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        if (_isShieldsActive == true)
+        {
+            _isShieldsActive = false;
+            _shieldVisualizer.SetActive(false);
+            return;
+        }
+
         _lives--;
+
+        _uiManager.UpdateLives(_lives);
 
         if (_lives < 1)
         {
@@ -119,9 +142,9 @@ public class Player : MonoBehaviour
         _isTripleShotActive = false;
     }
 
-    public void SpeedPowerupActive()
+    public void SpeedBoostActive()
     {
-        _isSpeedPowerupActive = true;
+        _isSpeedBoostActive = true;
 
         StartCoroutine(SpeedPowerDownRoutine());
 
@@ -130,6 +153,22 @@ public class Player : MonoBehaviour
     IEnumerator SpeedPowerDownRoutine()
     {
         yield return new WaitForSeconds(5.0f);
-        _isSpeedPowerupActive = false;
+        _isSpeedBoostActive = false;
+    }
+
+    public void ShieldsActive()
+    {
+        _isShieldsActive = true;
+
+        _shieldVisualizer.SetActive(true);
+        
+    }
+
+    public void AddScore(int points)
+    {
+        _score += points;
+        _uiManager.UpdateScore(_score);
     }
 }
+
+
