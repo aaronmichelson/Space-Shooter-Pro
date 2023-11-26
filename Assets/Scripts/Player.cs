@@ -28,6 +28,9 @@ public class Player : MonoBehaviour
     private GameObject _shieldVisualizer;
 
     [SerializeField]
+    private GameObject _leftEngine, _rightEngine;
+
+    [SerializeField]
     private int _score;
 
     private UIManager _uiManager;
@@ -116,6 +119,21 @@ public class Player : MonoBehaviour
         }
 
         _lives--;
+
+        // if lives is 2, enable right engine
+        // if lives is 1, enable left engine
+
+        if (_lives == 2)
+        {
+            _leftEngine.SetActive(true);
+        }
+        else if (_lives == 1)
+        {
+            _rightEngine.SetActive(true);
+        }
+
+
+        
 
         _uiManager.UpdateLives(_lives);
 
