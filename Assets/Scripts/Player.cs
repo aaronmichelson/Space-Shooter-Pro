@@ -120,9 +120,6 @@ public class Player : MonoBehaviour
 
         _lives--;
 
-        // if lives is 2, enable right engine
-        // if lives is 1, enable left engine
-
         if (_lives == 2)
         {
             _leftEngine.SetActive(true);
