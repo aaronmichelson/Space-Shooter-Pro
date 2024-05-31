@@ -35,6 +35,8 @@ public class Player : MonoBehaviour
 
     private UIManager _uiManager;
 
+    // variable to store the audio clip
+
     // Start is called before the first frame update
     void Start()
     {
@@ -107,6 +109,8 @@ public class Player : MonoBehaviour
             {
                 Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
             }
+
+            // play the laser audio clip
     }
 
     public void Damage()
